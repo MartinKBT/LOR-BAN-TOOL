@@ -12,14 +12,15 @@ import nashpy as nash
 version = "Ban tool v1.0"
 print("\n\n" + "-" * 30)
 print("Welcome to " + version)
-print("-"*30)
+print("-" * 30)
 
 #load data into dataframe
 df = pd.read_csv("mutable.csv")
 choices = list(df.columns.values)
 df.index = [choices]
 
-me = list(); en = list()
+me = list()
+en = list()
 
 #read decks - user input
 while len(me) != 3:
@@ -48,7 +49,7 @@ i = 0
 while i <= 2:
     j = 0
     while j <= 2:
-        clashtable[i][j] = df.iloc[meIndex[i], enIndex[j]]
+        clashtable[i][j] = df.iloc[enIndex[i], meIndex[j]]
         j += 1
     i += 1
 
@@ -108,6 +109,7 @@ print("\n\nPayoff (arbitrary) matrix:\n" + str(payoffNp))
 print("\n\nSolution (nash equilibrium - optimal strategy)\nfirst player 1 (you - rows) then player 2:\n (enemy - columns) " + solutionS)
 
 #print decks to ban if saddle point exists
+#ban is list containing index of decks to ban
 x = 0; count = 0; ban = [-1 for a in range(2)]
 while x <= 1:
     y = 0
@@ -122,8 +124,8 @@ while x <= 1:
 if ban[0] >= 0 and ban[1] >= 0:
     print("\n\nSaddle point found")
     #it's vice versa here - you ban enemy and enemy ban you
-    print("Your ban GTO: " + str(en[int(ban[0])]))
-    print("Enemy ban GTO: " + str(me[int(ban[1])]))
+    print("Your ban GTO: " + str(en[int(ban[1])]))
+    print("Enemy ban GTO: " + str(me[int(ban[0])]))
     print("Gamevalue: " + str(payoff[ban[0]][ban[1]]))
 else:
     print("\n\nSaddle point not found, please do further analysis")
